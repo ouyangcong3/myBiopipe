@@ -1,0 +1,173 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	annotate
+	3	bwa_map
+	1	samtools_index
+	1	samtools_merge_bam
+	1	samtools_rmdup
+	3	samtools_sort_bam
+	1	snp_indel_calling
+	12
+
+Job 11: ############ start bwa mapping ####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L3.bam
+
+bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L3_R1.fq rawdata/KPGP-00001/KPGP-00001_L3_R2.fq | samtools view -b -S -t /DataBase/Human/hg19/refgenome/hg19.fa.fai > mapping/KPGP-00001/KPGP-00001_L3.bam 2>log/KPGP-00001_bwa_map.log
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 5000 sequences (450000 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 1976, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (474, 482, 489)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (444, 519)
+[M::mem_pestat] mean and std.dev: (481.42, 11.44)
+[M::mem_pestat] low and high boundaries for proper pairs: (429, 534)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 5000 reads in 5.007 CPU sec, 5.003 real sec
+[main] Version: 0.7.15-r1140
+[main] CMD: bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L3_R1.fq rawdata/KPGP-00001/KPGP-00001_L3_R2.fq
+[main] Real time: 10.221 sec; CPU: 10.127 sec
+Finished job 11.
+1 of 12 steps (8%) done
+
+Job 8: ############## start sorting bam #####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L3.bam.sort; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L3.bam
+
+samtools sort -@ 1 -m 4G mapping/KPGP-00001/KPGP-00001_L3.bam -o mapping/KPGP-00001/KPGP-00001_L3.bam.sort 1>log/KPGP-00001_samtools_sort_bam.log 2>&1
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L3.bam.
+Finished job 8.
+2 of 12 steps (17%) done
+
+Job 10: ############ start bwa mapping ####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L4.bam
+
+bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L4_R1.fq rawdata/KPGP-00001/KPGP-00001_L4_R2.fq | samtools view -b -S -t /DataBase/Human/hg19/refgenome/hg19.fa.fai > mapping/KPGP-00001/KPGP-00001_L4.bam 2>log/KPGP-00001_bwa_map.log
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 5000 sequences (450000 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 1985, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (459, 467, 476)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (425, 510)
+[M::mem_pestat] mean and std.dev: (467.36, 13.04)
+[M::mem_pestat] low and high boundaries for proper pairs: (408, 527)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 5000 reads in 3.961 CPU sec, 3.961 real sec
+[main] Version: 0.7.15-r1140
+[main] CMD: bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L4_R1.fq rawdata/KPGP-00001/KPGP-00001_L4_R2.fq
+[main] Real time: 10.179 sec; CPU: 10.072 sec
+Finished job 10.
+3 of 12 steps (25%) done
+
+Job 7: ############## start sorting bam #####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L4.bam.sort; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L4.bam
+
+samtools sort -@ 1 -m 4G mapping/KPGP-00001/KPGP-00001_L4.bam -o mapping/KPGP-00001/KPGP-00001_L4.bam.sort 1>log/KPGP-00001_samtools_sort_bam.log 2>&1
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L4.bam.
+Finished job 7.
+4 of 12 steps (33%) done
+
+Job 9: ############ start bwa mapping ####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L2.bam
+
+bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L2_R1.fq rawdata/KPGP-00001/KPGP-00001_L2_R2.fq | samtools view -b -S -t /DataBase/Human/hg19/refgenome/hg19.fa.fai > mapping/KPGP-00001/KPGP-00001_L2.bam 2>log/KPGP-00001_bwa_map.log
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 5000 sequences (450000 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 2028, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] analyzing insert size distribution for orientation FR...
+[M::mem_pestat] (25, 50, 75) percentile: (463, 471, 480)
+[M::mem_pestat] low and high boundaries for computing mean and std.dev: (429, 514)
+[M::mem_pestat] mean and std.dev: (471.49, 12.59)
+[M::mem_pestat] low and high boundaries for proper pairs: (412, 531)
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 5000 reads in 2.119 CPU sec, 2.119 real sec
+[main] Version: 0.7.15-r1140
+[main] CMD: bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L2_R1.fq rawdata/KPGP-00001/KPGP-00001_L2_R2.fq
+[main] Real time: 7.213 sec; CPU: 7.112 sec
+Finished job 9.
+5 of 12 steps (42%) done
+
+Job 6: ############## start sorting bam #####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L2.bam.sort; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L2.bam
+
+samtools sort -@ 1 -m 4G mapping/KPGP-00001/KPGP-00001_L2.bam -o mapping/KPGP-00001/KPGP-00001_L2.bam.sort 1>log/KPGP-00001_samtools_sort_bam.log 2>&1
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L2.bam.
+Finished job 6.
+6 of 12 steps (50%) done
+
+Job 5: ################ merge bam from lanes ###############
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001.sort.merge.bam; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L2.bam.sort, mapping/KPGP-00001/KPGP-00001_L4.bam.sort, mapping/KPGP-00001/KPGP-00001_L3.bam.sort
+
+
+        LANE_NUM=3
+        if [[ $LANE_NUM -gt 1 ]];
+        then 
+            samtools merge -l 9 -@ 1 -h mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001.sort.merge.bam mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001_L3.bam.sort mapping/KPGP-00001/KPGP-00001_L4.bam.sort 1>log/KPGP-00001_samtools_merge_bam.log 2>&1
+        else
+            mv mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001_L3.bam.sort mapping/KPGP-00001/KPGP-00001_L4.bam.sort mapping/KPGP-00001/KPGP-00001.sort.merge.bam
+        fi
+        
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L2.bam.sort.
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L4.bam.sort.
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L3.bam.sort.
+Finished job 5.
+7 of 12 steps (58%) done
+
+Job 3: ################ remove duplicates ################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_final.bam; Input files updated by another job: mapping/KPGP-00001/KPGP-00001.sort.merge.bam
+
+samtools rmdup -S mapping/KPGP-00001/KPGP-00001.sort.merge.bam mapping/KPGP-00001/KPGP-00001_final.bam  1>log/KPGP-00001_samtools_rmdup.log 2>&1 
+Write-protecting output file mapping/KPGP-00001/KPGP-00001_final.bam.
+Removing temporary output file mapping/KPGP-00001/KPGP-00001.sort.merge.bam.
+Finished job 3.
+8 of 12 steps (67%) done
+
+Job 4: ############## call variation #####################
+Reason: Missing output files: variation/KPGP-00001_raw_var.vcf; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_final.bam
+
+
+        samtools mpileup -t DP,AD -q 1 -ugf /DataBase/Human/hg19/refgenome/hg19.fa mapping/KPGP-00001/KPGP-00001_final.bam         | bcftools call -vm -O v -o variation/KPGP-00001_raw_var.vcf 1>log/KPGP-00001_call_var.log 2>&1
+        
+[mpileup] 1 samples in 1 input files
+<mpileup> Set max per-file depth to 8000
+Write-protecting output file variation/KPGP-00001_raw_var.vcf.
+Finished job 4.
+9 of 12 steps (75%) done
+
+Job 1: ################ indexing final_bam ################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_final.bam.bai; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_final.bam
+
+samtools index mapping/KPGP-00001/KPGP-00001_final.bam mapping/KPGP-00001/KPGP-00001_final.bam.bai 1>log/KPGP-00001samtools_index.log 2>&1
+Write-protecting output file mapping/KPGP-00001/KPGP-00001_final.bam.bai.
+Finished job 1.
+10 of 12 steps (83%) done
+
+Job 2: ############## snp_indel annotation ###############
+Reason: Missing output files: variation/KPGP-00001.anno.vcf; Input files updated by another job: variation/KPGP-00001_raw_var.vcf
+
+
+        perl /opt/annovar/convert2annovar.pl -format vcf4 variation/KPGP-00001_raw_var.vcf > variation/KPGP-00001.avinput &&         perl /opt/annovar/annotate_variation.pl variation/KPGP-00001.avinput -buildver hg19 -geneanno         -dbtype refgene /opt/annovar/humandb/ -out variation/KPGP-00001.anno.vcf 1>log/KPGP-00001_annotate.log 2>&1
+        
+NOTICE: Finished reading 3204 lines from VCF file
+NOTICE: A total of 3081 locus in VCF file passed QC threshold, representing 3004 SNPs (1365 transitions and 1639 transversions) and 77 indels/substitutions
+NOTICE: Finished writing 3004 SNP genotypes (1365 transitions and 1639 transversions) and 77 indels/substitutions for 1 sample
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 116 of /home/sxuan/mypipe/example/wgs.py:
+Missing files after 5 seconds:
+variation/KPGP-00001.anno.vcf
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Removing output files of failed job annotate since they might be corrupted:
+variation/KPGP-00001.avinput
+Will exit after finishing currently running jobs.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /home/sxuan/mypipe/example/.snakemake/log/2018-02-03T160509.875565.snakemake.log

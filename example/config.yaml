@@ -1,0 +1,3 @@
+rawdata: "rawdata"
+refgenome : "/DataBase/Human/hg19/refgenome/hg19.fa"
+ref_idx : "/DataBase/Human/hg19/refgenome/hg19.fa.fai"

@@ -1,0 +1,91 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	annotate
+	3	bwa_map
+	1	samtools_merge_bam
+	1	samtools_rmdup
+	3	samtools_sort_bam
+	1	snp_indel_calling
+	11
+
+Job 10: ############ start bwa mapping ####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L3.bam
+
+bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L3_R1.fq rawdata/KPGP-00001/KPGP-00001_L3_R2.fq | samtools view -b -S -t /DataBase/Human/hg19/refgenome/hg19.fa.fai > mapping/KPGP-00001/KPGP-00001_L3.bam 2>log/KPGP-00001_bwa_map.log
+Finished job 10.
+1 of 11 steps (9%) done
+
+Job 7: ############## start sorting bam #####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L3.bam.sort; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L3.bam
+
+samtools sort -@ 1 -m 4G mapping/KPGP-00001/KPGP-00001_L3.bam -o mapping/KPGP-00001/KPGP-00001_L3.bam.sort 1>log/KPGP-00001_samtools_sort_bam.log 2>&1
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L3.bam.
+Finished job 7.
+2 of 11 steps (18%) done
+
+Job 9: ############ start bwa mapping ####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L4.bam
+
+bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L4_R1.fq rawdata/KPGP-00001/KPGP-00001_L4_R2.fq | samtools view -b -S -t /DataBase/Human/hg19/refgenome/hg19.fa.fai > mapping/KPGP-00001/KPGP-00001_L4.bam 2>log/KPGP-00001_bwa_map.log
+Finished job 9.
+3 of 11 steps (27%) done
+
+Job 6: ############## start sorting bam #####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L4.bam.sort; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L4.bam
+
+samtools sort -@ 1 -m 4G mapping/KPGP-00001/KPGP-00001_L4.bam -o mapping/KPGP-00001/KPGP-00001_L4.bam.sort 1>log/KPGP-00001_samtools_sort_bam.log 2>&1
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L4.bam.
+Finished job 6.
+4 of 11 steps (36%) done
+
+Job 8: ############ start bwa mapping ####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L2.bam
+
+bwa mem -t 1 -M /DataBase/Human/hg19/refgenome/hg19.fa rawdata/KPGP-00001/KPGP-00001_L2_R1.fq rawdata/KPGP-00001/KPGP-00001_L2_R2.fq | samtools view -b -S -t /DataBase/Human/hg19/refgenome/hg19.fa.fai > mapping/KPGP-00001/KPGP-00001_L2.bam 2>log/KPGP-00001_bwa_map.log
+Finished job 8.
+5 of 11 steps (45%) done
+
+Job 5: ############## start sorting bam #####################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_L2.bam.sort; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L2.bam
+
+samtools sort -@ 1 -m 4G mapping/KPGP-00001/KPGP-00001_L2.bam -o mapping/KPGP-00001/KPGP-00001_L2.bam.sort 1>log/KPGP-00001_samtools_sort_bam.log 2>&1
+Removing temporary output file mapping/KPGP-00001/KPGP-00001_L2.bam.
+Finished job 5.
+6 of 11 steps (55%) done
+
+Job 4: ################ merge bam from lanes ###############
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001.sort.merge.bam; Input files updated by another job: mapping/KPGP-00001/KPGP-00001_L2.bam.sort, mapping/KPGP-00001/KPGP-00001_L4.bam.sort, mapping/KPGP-00001/KPGP-00001_L3.bam.sort
+
+
+        if [[ ${params.lane_num} -gt 1 ]];
+        then 
+            samtools merge -l 9 -@ 1 -h mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001.sort.merge.bam mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001_L3.bam.sort mapping/KPGP-00001/KPGP-00001_L4.bam.sort 2>log/KPGP-00001_samtools_merge_bam.log"
+        else
+            mv mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001_L3.bam.sort mapping/KPGP-00001/KPGP-00001_L4.bam.sort mapping/KPGP-00001/KPGP-00001.sort.merge.bam
+        fi
+        
+Error in rule samtools_merge_bam:
+    jobid: 4
+    output: mapping/KPGP-00001/KPGP-00001.sort.merge.bam
+    log: log/KPGP-00001_samtools_merge_bam.log
+
+RuleException:
+CalledProcessError in line 65 of /home/sxuan/mypipe/example/wgs.py:
+Command ' set -euo pipefail;  
+        if [[ ${params.lane_num} -gt 1 ]];
+        then 
+            samtools merge -l 9 -@ 1 -h mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001.sort.merge.bam mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001_L3.bam.sort mapping/KPGP-00001/KPGP-00001_L4.bam.sort 2>log/KPGP-00001_samtools_merge_bam.log"
+        else
+            mv mapping/KPGP-00001/KPGP-00001_L2.bam.sort mapping/KPGP-00001/KPGP-00001_L3.bam.sort mapping/KPGP-00001/KPGP-00001_L4.bam.sort mapping/KPGP-00001/KPGP-00001.sort.merge.bam
+        fi ' returned non-zero exit status 2.
+  File "/home/sxuan/mypipe/example/wgs.py", line 65, in __rule_samtools_merge_bam
+  File "/opt/anaconda/lib/python3.6/concurrent/futures/thread.py", line 55, in run
+Will exit after finishing currently running jobs.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /home/sxuan/mypipe/example/.snakemake/log/2018-02-03T150603.231153.snakemake.log

@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	annotate
+	1	samtools_rmdup
+	1	snp_indel_calling
+	4
+
+Job 3: ################ remove duplicates ################
+Reason: Missing output files: mapping/KPGP-00001/KPGP-00001_final.bam
+
+samtools rmdup -S mapping/KPGP-00001/KPGP-00001.sort.merge.bam mapping/KPGP-00001/KPGP-00001_final.bam && samtools index mapping/KPGP-00001/KPGP-00001_final.bam mapping/KPGP-00001/KPGP-00001_final.bam.bai 1>log/KPGP-00001_samtools_rmdup.log 2>&1
+Error in rule samtools_rmdup:
+    jobid: 3
+    output: mapping/KPGP-00001/KPGP-00001_final.bam, mapping/KPGP-00001/KPGP-00001_final.bam.bai
+    log: log/KPGP-00001_samtools_rmdup.log
+
+RuleException:
+CalledProcessError in line 86 of /home/sxuan/mypipe/example/wgs.py:
+Command ' set -euo pipefail;  samtools rmdup -S mapping/KPGP-00001/KPGP-00001.sort.merge.bam mapping/KPGP-00001/KPGP-00001_final.bam && samtools index mapping/KPGP-00001/KPGP-00001_final.bam mapping/KPGP-00001/KPGP-00001_final.bam.bai 1>log/KPGP-00001_samtools_rmdup.log 2>&1 ' returned non-zero exit status 1.
+  File "/home/sxuan/mypipe/example/wgs.py", line 86, in __rule_samtools_rmdup
+  File "/opt/anaconda/lib/python3.6/concurrent/futures/thread.py", line 55, in run
+Will exit after finishing currently running jobs.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /home/sxuan/mypipe/example/.snakemake/log/2018-02-03T152841.358420.snakemake.log

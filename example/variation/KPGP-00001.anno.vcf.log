@@ -1,0 +1,13 @@
+ANNOVAR Version:
+	$Date: 2017-07-17 01:17:04 -0400 (Mon, 17 Jul 2017) $
+ANNOVAR Information:
+	For questions, comments, documentation, bug reports and program update, please visit http://www.openbioinformatics.org/annovar/
+ANNOVAR Command:
+	/opt/annovar/annotate_variation.pl variation/KPGP-00001.avinput -buildver hg19 -geneanno -dbtype refgene /opt/annovar/humandb/ -out variation/KPGP-00001.anno.vcf
+ANNOVAR Started:
+	Sat Feb  3 16:06:05 2018
+NOTICE: Output files were written to variation/KPGP-00001.anno.vcf.variant_function, variation/KPGP-00001.anno.vcf.exonic_variant_function
+NOTICE: Reading gene annotation from /opt/annovar/humandb/hg19_refGene.txt ... Done with 63481 transcripts (including 15216 without coding sequence annotation) for 27720 unique genes
+NOTICE: Processing next batch with 3081 unique variants in 3081 input lines
+NOTICE: Reading FASTA sequences from /opt/annovar/humandb/hg19_refGeneMrna.fa ... Done with 63 sequences
+WARNING: A total of 405 sequences will be ignored due to lack of correct ORF annotation
