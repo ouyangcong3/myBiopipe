@@ -17,7 +17,8 @@ except:
 
 rule all:
     input:
-        "variation/"+samp+".anno.vcf"
+        "variation/"+samp+".anno.vcf",
+        "mapping/"+samp+"/"+samp+"_final.bam.bai"
 
 rule bwa_map:
     input:
@@ -26,20 +27,20 @@ rule bwa_map:
         R1 = rawdir+"/"+samp+"/"+samp+"_L{lane}_R1.fq",
         R2 = rawdir+"/"+samp+"/"+samp+"_L{lane}_R2.fq"
     output:
-        temp("mapping"+samp+"/"+samp+"_L{lane}.bam")
+        temp("mapping/"+samp+"/"+samp+"_L{lane}.bam")
     message:
         "############ start bwa mapping ####################"
     log:
         "log/"+samp+"_bwa_map.log"
     threads: 5
     shell:
-        "bwa mem -t {threads} -M {input.ref} {input.R1} {input.R2} | samtools -b -S -t {input.ref_idx} > {output} 2>{log}"
+        "bwa mem -t {threads} -M {input.ref} {input.R1} {input.R2} | samtools view -b -S -t {input.ref_idx} > {output} 2>{log}"
 
 rule samtools_sort_bam:
     input:
-        "mapping"+samp+"/"+samp+"_L{lane}.bam"
+        "mapping/"+samp+"/"+samp+"_L{lane}.bam"
     output:
-        temp("mapping"+"/"+samp+"/"+samp+"_L{lane}.bam.sort")
+        temp("mapping/"+samp+"/"+samp+"_L{lane}.bam.sort")
     message:
         "############## start sorting bam #####################"
     threads: 4
@@ -52,20 +53,21 @@ rule samtools_merge_bam:
     input:
         expand("mapping/"+samp+"/"+samp+"_L{lane}.bam.sort", lane=LANE)
     output:
-        temp("mapping"+samp+"/"+samp+".sort.merge.bam")
+        temp("mapping/"+samp+"/"+samp+".sort.merge.bam")
     message:
         "################ merge bam from lanes ###############"
     log:
         "log/"+samp+"_samtools_merge_bam.log"
     threads: 8
     params:
-        header = "mapping"+samp+"/"+samp+"_L"+str(LANE[0])+".bam.sort",
+        header = "mapping/"+samp+"/"+samp+"_L"+str(LANE[0])+".bam.sort",
         lane_num = len(LANE)
     shell:
         """
-        if [[ ${{params.lane_num}} -gt 1 ]];
+        LANE_NUM={params.lane_num}
+        if [[ $LANE_NUM -gt 1 ]];
         then 
-            samtools merge -l 9 -@ {threads} -h {params.header} {output} {input} 2>{log}"
+            samtools merge -l 9 -@ {threads} -h {params.header} {output} {input} 1>{log} 2>&1
         else
             mv {input} {output}
         fi
@@ -73,21 +75,32 @@ rule samtools_merge_bam:
 
 rule samtools_rmdup:
     input:
-        "mapping"+samp+"/"+samp+".sort.merge.bam"
+        "mapping/"+samp+"/"+samp+".sort.merge.bam"
     output:
-        final_bam = protected("mapping"+samp+"/"+samp+"_final.bam"),
-        bai = protected("mapping"+samp+"/"+samp+"_final.bam.bai")
+        protected("mapping/"+samp+"/"+samp+"_final.bam"),
     message:
         "################ remove duplicates ################"
     log:
         "log/"+samp+"_samtools_rmdup.log"
     shell:
-        "samtools rmdup -S {input} {output.final_bam} && samtools index {output.final_bam} {output.bai} 2>{log}"
+        "samtools rmdup -S {input} {output}  1>{log} 2>&1 "
+
+rule samtools_index:
+    input:
+        "mapping/"+samp+"/"+samp+"_final.bam"
+    output:
+        protected("mapping/"+samp+"/"+samp+"_final.bam.bai")
+    message:
+        "################ indexing final_bam ################"
+    log:
+        "log/"+samp+"samtools_index.log"
+    shell:
+        "samtools index {input} {output} 1>{log} 2>&1"
 
 rule snp_indel_calling:
     input:
         ref = refgenome,
-        bam = "mapping"+samp+"/"+samp+"_final.bam"
+        bam = "mapping/"+samp+"/"+samp+"_final.bam"
     output:
         protected("variation/"+samp+"_raw_var.vcf")
     message:
@@ -97,7 +110,7 @@ rule snp_indel_calling:
     shell:
         """
         samtools mpileup -t DP,AD -q 1 -ugf {input.ref} {input.bam} \
-        | bcftools call -vm -O v -o {output} 2>{log}
+        | bcftools call -vm -O v -o {output} 1>{log} 2>&1
         """
 
 rule annotate:
@@ -115,5 +128,5 @@ rule annotate:
         """
         perl /opt/annovar/convert2annovar.pl -format vcf4 {input} > {output.avinput} && \
         perl /opt/annovar/annotate_variation.pl {output.avinput} -buildver hg19 -geneanno \
-        -dbtype refgene /opt/annovar/humandb/ -out {output.anno_var} 2>{log}
+        -dbtype refgene /opt/annovar/humandb/ -out {output.anno_var} 1>{log} 2>&1
         """
