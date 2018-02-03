@@ -1,3 +1,0 @@
-WorkflowError in line 1 of /home/sxuan/mypipe/example/scripts/wgs.py:
-Config file config.yaml not found.
-  File "/home/sxuan/mypipe/example/scripts/wgs.py", line 1, in <module>
